@@ -1,2 +1,2 @@
-# snack_shoop
+# snack_shop
 
