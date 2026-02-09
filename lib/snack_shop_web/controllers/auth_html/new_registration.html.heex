@@ -1,0 +1,39 @@
+<div class="min-h-screen bg-black flex items-center justify-center p-6">
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 blur-[120px] rounded-full animate-pulse">
+    </div>
+  </div>
+
+  <div class="relative z-10 w-full max-w-md">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-black text-white">
+        Join the <span class="text-primary italic">Shop</span>
+      </h1>
+      <p class="text-gray-400 mt-2">Create an account to start ordering snacks!</p>
+    </div>
+
+    <div class="card bg-base-100/40 backdrop-blur-xl border border-white/10 shadow-2xl">
+      <div class="card-body p-8">
+        <.simple_form :let={f} for={@changeset} action={~p"/register"}>
+          <div class="grid grid-cols-2 gap-4">
+            <.input field={f[:first_name]} type="text" label="First Name" required />
+            <.input field={f[:last_name]} type="text" label="Last Name" required />
+          </div>
+          <.input field={f[:email]} type="email" label="Email" required />
+          <.input field={f[:password]} type="password" label="Password" required />
+
+          <:actions>
+            <.button class="btn btn-primary btn-block rounded-full mt-4 border-none shadow-lg">
+              Create Account
+            </.button>
+          </:actions>
+        </.simple_form>
+
+        <p class="text-center mt-6 text-gray-400">
+          Already a member?
+          <.link href={~p"/login"} class="text-primary font-bold hover:underline">Sign In</.link>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,124 @@
+<div class="bg-black min-h-screen py-10 px-4" x-data="{ openModal: false, activeSnack: {} }">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+      <div>
+        <h2 class="text-5xl font-black text-white uppercase tracking-tighter">
+          Available <span class="text-primary italic">Snacks</span>
+        </h2>
+        <p class="text-gray-400 mt-2">Hand-crafted, fresh, and ready for delivery.</p>
+      </div>
+      <div class="relative">
+        <.icon name="hero-shopping-cart" class="w-6 h-6" />
+        <span class="badge badge-sm badge-primary absolute -top-2 -right-2">
+          {Enum.count(@cart_items)}
+        </span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <%= for product <- @products do %>
+        <div class="group bg-neutral/20 backdrop-blur-md border border-white/5 rounded-3xl overflow-hidden hover:border-primary/40 transition-all duration-300">
+          <div class="relative h-56 overflow-hidden">
+            <img
+              src={product.image_url || ~p"/images/default-snack.jpg"}
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-primary font-bold">
+              Ksh {product.selling_price}
+            </div>
+          </div>
+
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-4">{product.name}</h3>
+
+            <div class="flex flex-col gap-2">
+              <button
+                @click={"activeSnack = { 
+                  name: '#{product.name}', 
+                  price: '#{product.selling_price}', 
+                  ingredients: '#{Enum.map_join(product.ingredients, ", ", & &1.name)}',
+               
+                  description: '#{product.description}'
+                }; openModal = true"}
+                class="btn btn-sm btn-outline btn-primary rounded-full"
+              >
+                More Information
+              </button>
+
+              <.link
+                href={~p"/cart/add?product_id=#{product.id}"}
+                method="post"
+                class="btn btn-sm btn-primary rounded-full"
+              >
+                Add to Cart
+              </.link>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <template x-if="openModal">
+      <div
+        class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+        @click.away="openModal = false"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+      >
+        <div class="bg-neutral border border-white/10 p-8 rounded-3xl max-w-lg w-full relative shadow-2xl">
+          <button @click="openModal = false" class="btn btn-sm btn-circle absolute right-4 top-4">
+            ✕
+          </button>
+
+          <h2 class="text-3xl font-black text-primary uppercase mb-2" x-text="activeSnack.name">
+          </h2>
+          <p class="text-gray-400 mb-6 text-sm leading-relaxed" x-text="activeSnack.description">
+          </p>
+
+          <div class="grid grid-cols-2 gap-y-6 gap-x-4 border-t border-white/5 pt-6">
+            <div>
+              <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold block mb-1">
+                Ingredients
+              </span>
+              <p
+                class="text-white text-sm"
+                x-text="activeSnack.ingredients || 'Fresh daily ingredients'"
+              >
+              </p>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold block mb-1">
+                Price
+              </span>
+              <p class="text-primary font-black text-lg" x-text="'Ksh ' + activeSnack.price"></p>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold block mb-1">
+                Manufactured
+              </span>
+              <p class="text-white text-sm" x-text="activeSnack.mfg || 'Today'"></p>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold block mb-1">
+                Expiry Date
+              </span>
+              <p
+                class="text-error text-sm font-bold"
+                x-text="activeSnack.exp || 'Fresh for 48hrs'"
+              >
+              </p>
+            </div>
+          </div>
+
+          <button
+            @click="openModal = false"
+            class="btn btn-primary btn-block rounded-full mt-8 shadow-lg shadow-primary/20"
+          >
+            Got it, Thanks!
+          </button>
+        </div>
+      </div>
+    </template>
+  </div>
+</div>

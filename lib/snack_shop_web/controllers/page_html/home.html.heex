@@ -1,0 +1,51 @@
+<div class="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-black">
+  <div class="absolute inset-0 z-0">
+    <img
+      src={~p"/images/mandazi.webp"}
+      class="absolute inset-0 w-full h-full object-cover animate-slide-1"
+    />
+    <img
+      src={~p"/images/fries.webp"}
+      class="absolute inset-0 w-full h-full object-cover animate-slide-2"
+    />
+    <img
+      src={~p"/images/bajia.webp"}
+      class="absolute inset-0 w-full h-full object-cover animate-slide-3"
+    />
+    <img
+      src={~p"/images/ice.jpg"}
+      class="absolute inset-0 w-full h-full object-cover animate-slide-4"
+    />
+
+    <div class="absolute inset-0 bg-black/30 backdrop-blur-[1px]"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto text-center px-6 animate-slide-in-left">
+    <h1 class="text-6xl md:text-8xl font-black text-white mb-6 drop-shadow-2xl">
+      The <span class="text-primary italic">Snack</span> Shop
+    </h1>
+
+    <p class="text-xl md:text-2xl text-white mb-10 font-bold drop-shadow-lg uppercase tracking-widest">
+      Always Fresh • Always Fast
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <%= if @current_user do %>
+        <.link
+          href={~p"/products"}
+          class="btn btn-primary btn-lg rounded-full px-12 shadow-2xl pulse-animation border-none"
+        >
+          Enter Shop
+        </.link>
+      <% else %>
+        <.link
+          href={~p"/products"}
+          class="btn btn-primary btn-lg rounded-full px-12 shadow-2xl border-none"
+        >
+           Click to Available Snacks
+        </.link>
+       
+      <% end %>
+    </div>
+  </div>
+</div>

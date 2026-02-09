@@ -1,0 +1,29 @@
+<div class="min-h-screen bg-black flex items-center justify-center p-6">
+  <div class="relative z-10 w-full max-w-md">
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-black text-white">Welcome <span class="text-primary">Back</span></h1>
+      <p class="text-gray-400">Ready for some Mandazi?</p>
+    </div>
+
+    <div class="card bg-base-100/40 backdrop-blur-xl border border-white/10 shadow-2xl">
+      <div class="card-body p-8">
+        <.simple_form :let={f} for={%{}} action={~p"/login"} as={:session}>
+          <.input field={f[:email]} type="email" label="Email" required />
+          <.input field={f[:password]} type="password" label="Password" required />
+          
+          <:actions>
+            <.button class="btn btn-primary btn-block rounded-full mt-4 border-none">
+              Sign In
+            </.button>
+          </:actions>
+        </.simple_form>
+
+        <div class="divider text-gray-600 mt-8 font-bold text-xs uppercase">or use social</div>
+        
+        <.link href={~p"/auth/google"} class="btn btn-outline btn-block rounded-full gap-2 text-white border-white/20 hover:bg-white/10">
+          <img src="https://www.google.com/favicon.ico" class="w-4 h-4" /> Sign in with Google
+        </.link>
+      </div>
+    </div>
+  </div>
+</div>
